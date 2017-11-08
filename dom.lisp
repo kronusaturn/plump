@@ -619,13 +619,11 @@ STREAM can be a stream, T for *standard-output* or NIL to serialize to string."
     (:method ((node element))
       (wrs "<" (tag-name node))
       (serialize (attributes node) *stream*)
-      (if (< 0 (length (children node)))
-          (progn
-            (wrs ">")
-            (loop for child across (children node)
-                  do (serialize child *stream*))
-            (wrs "</" (tag-name node) ">"))
-          (wrs "/>")))
+      (progn
+        (wrs ">")
+        (loop for child across (children node)
+              do (serialize child *stream*))
+        (wrs "</" (tag-name node) ">")))
     (:method ((node fulltext-element))
       (wrs "<" (tag-name node))
       (serialize (attributes node) *stream*)
