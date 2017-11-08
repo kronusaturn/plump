@@ -515,13 +515,12 @@
         (progn
           (wrs "<" (tag-name node))
           (serialize (attributes node) *stream*)
-          (if (< 0 (length (children node)))
-              (progn
-                (wrs ">")
-                (loop for child across (children node)
-                      do (serialize-object child))
-                (wrs "</" (tag-name node) ">"))
-              (wrs "/>")))))
+          (progn
+            (wrs ">")
+            (loop for child across (children node)
+                  do (serialize-object child))
+            (wrs "</" (tag-name node) ">"))
+          (wrs "/>"))))
   (:method ((node fulltext-element))
     (wrs "<" (tag-name node))
     (serialize-object (attributes node))
